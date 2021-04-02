@@ -1,0 +1,298 @@
+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+# Copyright 2021 Analog Devices Inc.
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/iio/adc/adi,ad9083.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+title: Analog Devices AD9083 device driver
+
+maintainers:
+  - Cristian Pop <cristian.pop@analog.com>
+
+description: |
+  Bindings for the Analog Devices AD9083 current ADC device. Datasheet can be
+  found here:
+    https://www.analog.com/media/en/technical-documentation/data-sheets/ad9083.pdf
+
+properties:
+  compatible:
+    enum:
+      - adi,ad9083
+
+  '#address-cells':
+    const: 1
+
+  '#size-cells':
+    const: 0
+
+  reg:
+    description: |
+      SPI device address.
+    minimum: 0
+    maximum: 0xFF
+
+  jesd204-device: true
+
+  '#jesd-cells':
+    const: 2
+
+  jesd204-top-device:
+    const: 0
+
+  jesd204-link-ids:
+    const: 0
+
+  jesd204-inputs:
+    description: Inputs
+
+  spi-max-frequency: 1000000
+    const:
+
+  clocks:
+    description: Device input clocks
+
+  clock-names:
+    description: Clock names
+
+  adi,sampling-frequency:
+    const: 125000000
+
+  adi,vmax:
+    description: Full scale valtage
+
+  adi,fc:
+    description: Cut-off frequency of low-pass filter
+
+  adi,rterm:
+    description: Termination resistor
+
+  adi,en_hp:
+    description: Enable/disable high perfermance
+
+  adi,backoff:
+    description: The backoff in terms of noiseterms of noise, 100 * dB
+
+  adi,finmax:
+    description: Max input
+
+  adi,nco_freq:
+    description: NCO frequency
+
+  adi,decimation:
+    description: Decimation config
+
+  adi,nco0_datapath_mode:
+    description: NCO data path
+
+  adi,octets-per-frame:
+    description: Number of octets per frame (F)
+
+  adi,frames-per-multiframe:
+    description: Number of frames per multi-frame (K)
+
+  adi,converter-resolution:
+    description: Converter resolution (N)
+
+  adi,bits-per-sample:
+    description: Number of bits per sample (N')
+
+  adi,converters-per-device:
+    description: Number of converter per device (M)
+
+  adi,control-bits-per-sample:
+    description: Number of control bits per conversion sample (CS)
+
+  adi,lanes-per-device:
+    description: Number of lanes per link (L)
+
+  adi,subclass:
+    description: The JESD204B sublcass
+
+
+required:
+  - compatible
+  - compatible
+  - '#address-cells'
+  - '#size-cells'
+  - reg
+  - jesd204-device
+  - '#jesd-cells'
+  - jesd204-top-device
+  - jesd204-link-ids
+  - jesd204-inputs
+  - spi-max-frequency
+  - clocks
+  - clock-names
+  - adi,sampling-frequency
+  - adi,vmax
+  - adi,fc
+  - adi,rterm
+  - adi,en_hp
+  - adi,backoff
+  - adi,finmax
+  - adi,nco_freq
+  - adi,decimation
+  - adi,nco0_datapath_mode
+  - adi,octets-per-frame
+  - adi,frames-per-multiframe
+  - adi,converter-resolution
+  - adi,bits-per-sample
+  - adi,converters-per-device
+  - adi,control-bits-per-sample
+  - adi,lanes-per-device
+  - adi,subclass
+
+examples:
+  - |
+    #include <dt-bindings/iio/frequency/ad9528.h>
+    #include <dt-bindings/iio/adc/adi,ad9083.h>
+
+    &fmc_spi {
+      ad9528: ad9528@1 {
+        compatible = "adi,ad9528";
+        reg = <1>;
+        spi-cpol;
+        spi-cpha;
+        #address-cells = <1>;
+        #size-cells = <0>;
+
+        jesd204-device;
+        #jesd204-cells = <2>;
+        //jesd204-sysref-provider;
+
+        spi-max-frequency = <10000000>;
+        adi,spi-3wire-enable;
+
+        clock-output-names = "ad9528-1_out0", "ad9528-1_out1", "ad9528-1_out2",
+          "ad9528-1_out3", "ad9528-1_out4", "ad9528-1_out5", "ad9528-1_out6",
+          "ad9528-1_out7", "ad9528-1_out8", "ad9528-1_out9", "ad9528-1_out10",
+          "ad9528-1_out11", "ad9528-1_out12", "ad9528-1_out13";
+        #clock-cells = <1>;
+
+        adi,vcxo-freq = <100000000>;
+
+        adi,refa-enable;
+        adi,refa-diff-rcv-enable;
+        adi,refa-r-div = <1>;
+        adi,osc-in-cmos-neg-inp-enable;
+
+        /* PLL1 config */
+        adi,pll1-feedback-src-vcxo;
+        adi,pll1-feedback-div = <4>;
+        adi,pll1-charge-pump-current-nA = <5000>;
+        adi,osc-in-diff-enable;
+
+        /* PLL2 config */
+        /*
+        * Valid ranges based on VCO locking range:
+        *   1150.000 MHz - 1341.666 MHz
+        *    862.500 MHz - 1006.250 MHz
+        *    690.000 MHz -  805.000 MHz
+        */
+        adi,pll2-m1-frequency = <1000000000>;
+        adi,pll2-charge-pump-current-nA = <805000>;
+
+        /* SYSREF config */
+        adi,sysref-src = <SYSREF_SRC_INTERNAL>;
+        adi,sysref-pattern-mode = <SYSREF_PATTERN_CONTINUOUS>;
+        adi,sysref-k-div = <768>;
+        adi,sysref-request-enable;
+        adi,sysref-nshot-mode = <SYSREF_NSHOT_4_PULSES>;
+        adi,sysref-request-trigger-mode = <SYSREF_LEVEL_HIGH>;
+
+        adi,rpole2 = <RPOLE2_900_OHM>;
+        adi,rzero = <RZERO_1850_OHM>;
+        adi,cpole1 = <CPOLE1_16_PF>;
+
+        adi,status-mon-pin0-function-select = <0xFF>; /* No function */
+        adi,status-mon-pin1-function-select = <0xFF>; /* No function */
+
+        ad9528_0_c0: channel@0 {
+          reg = <0>;
+          adi,extended-name = "FPGA_SYSREF_CLK";
+          adi,driver-mode = <DRIVER_MODE_LVDS>;
+          adi,divider-phase = <0>;
+          adi,channel-divider = <1>; /* only sysref-k-div when FPGA_SYSREF_CLK */
+          adi,signal-source = <SOURCE_SYSREF_VCO>;
+        };
+
+        ad9528_0_c1: channel@1 {
+          reg = <1>;
+          adi,extended-name = "FPGA_GLBL_CLK";
+          adi,driver-mode = <DRIVER_MODE_LVDS>;
+          adi,divider-phase = <0>;
+          adi,channel-divider = <8>; /* 125 MHz */
+          adi,signal-source = <SOURCE_VCO>;
+        };
+
+        ad9528_0_c3: channel@3 {
+          reg = <3>;
+          adi,extended-name = "FPGA_REF_CLK";
+          adi,driver-mode = <DRIVER_MODE_LVDS>;
+          adi,divider-phase = <0>;
+          adi,channel-divider = <2>; /* 500 MHz */
+          adi,signal-source = <SOURCE_VCO>;
+        };
+
+        ad9528_0_c12: channel@12 {
+          reg = <12>;
+          adi,extended-name = "ADC_SYSREF_CLK";
+          adi,driver-mode = <DRIVER_MODE_LVDS>;
+          adi,divider-phase = <0>;
+          adi,channel-divider = <1>; /* only sysref-k-div when FPGA_SYSREF_CLK */
+          adi,signal-source = <SOURCE_SYSREF_VCO>;
+        };
+
+        ad9528_0_c13: channel@13 {
+          reg = <13>;
+          adi,extended-name = "ADC_REF_CLK";
+          adi,driver-mode = <DRIVER_MODE_LVDS>;
+          adi,divider-phase = <0>;
+          adi,channel-divider = <4>; /* 250 MHz */
+          adi,signal-source = <SOURCE_VCO>;
+        };
+      };
+
+      adc0_ad9083: ad9083@0 {
+        compatible = "adi,ad9083";
+        #address-cells = <1>;
+        #size-cells = <0>;
+        reg = <0>;
+        jesd204-device;
+        #jesd204-cells = <2>;
+        jesd204-top-device = <0>;
+        jesd204-link-ids = <0>;
+        jesd204-inputs = <&axi_ad9083_core_rx 0 0>;
+
+        spi-max-frequency = <1000000>;
+        clocks = <&ad9528 13>;
+        clock-names = "adc_ref_clk";
+
+        adi,sampling-frequency = /bits/ 64 <125000000>;
+
+        /* adi_ad9083 config */
+
+        adi,vmax = <1800>;
+        adi,fc =  /bits/ 64 <800000000>;
+        adi,rterm = <AD9083_ADC_TERM_RES_100>;
+        adi,en_hp = <0>;
+        adi,backoff = <0>;
+        adi,finmax = /bits/ 64 <100000000>;
+        adi,nco_freq = /bits/ 64 <0 0 0>;
+        adi,decimation = /bits/ 8 <AD9083_CIC_DEC_4 AD9083_J_DEC_4 0 0>;
+        adi,nco0_datapath_mode = /bits/ 8 <AD9083_DATAPATH_ADC_CIC_J>;
+
+        /* JESD204 parameters */
+
+        adi,octets-per-frame = <8>;
+        adi,frames-per-multiframe = <32>;
+        adi,converter-resolution = <16>;
+        adi,bits-per-sample = <16>;
+        adi,converters-per-device = <16>;
+        adi,control-bits-per-sample = <0>;
+        adi,lanes-per-device = <4>;
+        adi,subclass = <0>;
+      };
+    };
+...
