@@ -179,6 +179,38 @@ static int ad9083_reg_access(struct iio_dev *indio_dev, unsigned int reg,
 	return 0;
 }
 
+static int32_t ad9083_status(struct ad9083_phy *phy)
+{
+	uint16_t stat, retry = 3;
+	int32_t ret;
+
+	do {
+		ret = adi_ad9083_jesd_tx_link_status_get(
+			      &phy->adi_ad9083, &stat);
+		if (ret)
+			return -EFAULT;
+
+
+		if ((stat & 0xFF) == 0x7D)
+			ret = 0;
+		else
+			ret = -EIO;
+
+		if (ret == 0 || retry == 0)
+			pr_info("JESD RX (JTX) , state_204b %x, SYNC %s, PLL %s, PHASE %s, MODE %s\n",
+				stat & 0x0f,
+				stat & BIT(4) ? "deasserted" : "asserted",
+				stat & BIT(5) ? "locked" : "unlocked",
+				stat & BIT(6) ? "established" : "lost",
+				stat & BIT(7) ? "invalid" : "valid");
+		else
+			ad9083_udelay(NULL, 20000);
+
+	} while (ret && retry--);
+
+	return 0;
+}
+
 static int ad9083_jesd204_link_init(struct jesd204_dev *jdev,
 		enum jesd204_state_op_reason reason,
 		struct jesd204_link *lnk)
@@ -223,6 +255,10 @@ static int ad9083_jesd204_link_enable(struct jesd204_dev *jdev,
 		struct jesd204_link *lnk)
 {
 	struct device *dev = jesd204_dev_to_device(jdev);
+	struct ad9083_jesd204_priv *priv = jesd204_dev_priv(jdev);
+	struct ad9083_phy *phy = priv->phy;
+
+	ad9083_status(phy);
 
 	dev_dbg(dev, "%s:%d link_num %u reason %s\n", __func__,
 		 __LINE__, lnk->link_id, jesd204_state_op_reason_str(reason));
@@ -339,25 +375,28 @@ static int ad9083_parse_dt(struct ad9083_phy *phy, struct device *dev)
 	phy->jesd_param.jesd_scr = 1;
 
 	JESD204_LNK_READ_NUM_LANES(dev, np, &phy->jesd204_link,
-				&phy->jesd_param.jesd_l, 4);
+					&phy->jesd_param.jesd_l, 4);
 
 	JESD204_LNK_READ_OCTETS_PER_FRAME(dev, np, &phy->jesd204_link,
 					&phy->jesd_param.jesd_f, 8);
 
 	JESD204_LNK_READ_FRAMES_PER_MULTIFRAME(dev, np, &phy->jesd204_link,
-						&phy->jesd_param.jesd_k, 32);
+					&phy->jesd_param.jesd_k, 32);
 
 	JESD204_LNK_READ_CONVERTER_RESOLUTION(dev, np, &phy->jesd204_link,
-					      &phy->jesd_param.jesd_n, 16);
+					&phy->jesd_param.jesd_n, 16);
 
 	JESD204_LNK_READ_BITS_PER_SAMPLE(dev, np, &phy->jesd204_link,
-					 &phy->jesd_param.jesd_np, 16);
+					&phy->jesd_param.jesd_np, 16);
 
 	JESD204_LNK_READ_NUM_CONVERTERS(dev, np, &phy->jesd204_link,
 					&phy->jesd_param.jesd_m, 16);
 
+	JESD204_LNK_READ_VERSION(dev, np, &phy->jesd204_link,
+					&phy->jesd_param.jesd_jesdv, 1);
+
 	JESD204_LNK_READ_SUBCLASS(dev, np, &phy->jesd204_link,
-				  &phy->jesd_param.jesd_subclass, JESD_SUBCLASS_0);
+					&phy->jesd_param.jesd_subclass, JESD_SUBCLASS_1);
 
 	return 0;
 }

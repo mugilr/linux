@@ -18,7 +18,7 @@
 
 		jesd204-device;
 		#jesd204-cells = <2>;
-		//jesd204-sysref-provider;
+		jesd204-sysref-provider;
 
 		spi-max-frequency = <10000000>;
 		adi,spi-3wire-enable;
@@ -154,7 +154,7 @@
 		adi,converters-per-device = <16>;
 		adi,control-bits-per-sample = <0>;
 		adi,lanes-per-device = <4>;
-		adi,subclass = <0>;
+		adi,subclass = <1>;
 	};
 };
 
