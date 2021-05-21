@@ -83,9 +83,7 @@ static int axi_pwmgen_apply(struct pwm_chip *chip, struct pwm_device *device,
 	tmp *= state->period;
 	period_cnt = DIV_ROUND_UP(tmp, USEC_PER_SEC);
 	pwm->ch_period[ch] = period_cnt;
-	/* The register is 0 based */
-	axi_pwmgen_write(pwm, AXI_PWMGEN_CHX_PERIOD(ch),
-		state->enabled ? (pwm->ch_period[ch] - 1) : 0);
+	axi_pwmgen_write(pwm, AXI_PWMGEN_CHX_PERIOD(ch), state->enabled ? pwm->ch_period[ch] : 0);
 
 	/* Downscale by 1000 */
 	tmp = DIV_ROUND_CLOSEST(clk_rate, NSEC_PER_USEC);
