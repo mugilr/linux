@@ -1,0 +1,66 @@
+# SPDX-License-Identifier: GPL-2.0
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/iio/frequency/adi,admv1014.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+title: ADMV1014 Microwave Downconverter
+
+maintainers:
+- Antoniu Miclaus <antoniu.miclaus@analog.com>
+
+description: |
+   wideband, microwave downconverter optimized for point to point microwave
+   radio designs operating in the 24 GHz to 44 GHz frequency range.
+properties:
+  compatible:
+    enum:
+      - adi,admv1014
+
+  reg:
+    maxItems: 1
+
+  clocks:
+    description:
+      Definition of the external clock (see clock/clock-bindings.txt)
+      The Common Clock Framework max rate is limited by MAX of unsigned long.
+      For ADMV1014 devices this is a deficiency. If specified, this
+      property allows arbitrary scales. The second element after the external clock
+      in the array should be the multiplier and the third element should be the divider.
+    minItems: 1
+    maxItems: 3
+
+  adi,quad-se-mode:
+    description:
+      Switch Differential/SE Modes.
+    allOf:
+      - enum: [6, 9, 12]
+
+  adi,parity-enable:
+    description:
+      Enable Parity for Write execution.
+    type: boolean
+
+required:
+- compatible
+- reg
+- clocks
+- clock-names
+- adi,quad-se-mode
+
+additionalProperties: false
+
+examples:
+- |
+    spi {
+      #address-cells = <1>;
+      #size-cells = <0>;
+      admv1014@0{
+				compatible = "adi,admv1014";
+				reg = <0>;
+				spi-max-frequency = <1000000>;
+				clocks = <&admv1014_lo 3>;
+				clock-names = "lo_in";
+				adi,quad-se-mode = <12>;
+      };
+    };
