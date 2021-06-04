@@ -1,0 +1,103 @@
+What:		/sys/bus/iio/devices/iio:deviceX/bb_amp_pd
+KernelVersion:	5.13
+Contact:	linux-iio@vger.kernel.org
+Description:
+		Power Down the Baseband Amp. Write 1 to power down, 0 to power up.
+
+What:		/sys/bus/iio/devices/iio:deviceX/bg_pd
+KernelVersion:	5.13
+Contact:	linux-iio@vger.kernel.org
+Description:
+		Power Down the Rx BG . Write 1 to powerdown, 0 to powerup.
+
+What:		/sys/bus/iio/devices/iio:deviceX/det_en
+KernelVersion:	5.13
+Contact:	linux-iio@vger.kernel.org
+Description:
+		Digital Rx Detector Enable. Write 1 to enable, 0 to disable.
+
+What:		/sys/bus/iio/devices/iio:deviceX/det_prog
+KernelVersion:	5.13
+Contact:	linux-iio@vger.kernel.org
+Description:
+		Digital Rx Detector Program. Write:
+		0 - From −12 dBm to +4 dBm.
+		1 - From −13 dBm to +3 dBm.
+		10 - From −14 dBm to +2 dBm.
+		100 - From −15 dBm to +1 dBm.
+		1000 - From −15.5 dBm to +0.5 dBm.
+		10000 - From −16.25 dBm to −0.25 dBm.
+		100000 - From −17 dBm to −1 dBm.
+		1000000 - From −18 dBm to −2 dBm.
+
+What:		/sys/bus/iio/devices/iio:deviceX/ibias_pd
+KernelVersion:	5.13
+Contact:	linux-iio@vger.kernel.org
+Description:
+		Power Down the Rx Ibias. Write 1 to power down, 0 to power up.
+
+What:		/sys/bus/iio/devices/iio:deviceX/if_amp_coarse_gain_i
+KernelVersion:	5.13
+Contact:	linux-iio@vger.kernel.org
+Description:
+		Digital IF Amp Step Gain I.
+
+What:		/sys/bus/iio/devices/iio:deviceX/if_amp_coarse_gain_q
+KernelVersion:	5.13
+Contact:	linux-iio@vger.kernel.org
+Description:
+		Digital IF Amp 1 dB Step Gain Q.
+
+What:		/sys/bus/iio/devices/iio:deviceX/if_amp_fine_gain_i
+KernelVersion:	5.13
+Contact:	linux-iio@vger.kernel.org
+Description:
+		IF Amp I, 10 Fine Steps from 0x0 to 0xA.
+
+What:		/sys/bus/iio/devices/iio:deviceX/if_amp_fine_gain_q
+KernelVersion:	5.13
+Contact:	linux-iio@vger.kernel.org
+Description:
+		IF Amp Q, 10 Fine Steps from 0x0 to 0xA.
+
+What:		/sys/bus/iio/devices/iio:deviceX/if_amp_pd
+KernelVersion:	5.13
+Contact:	linux-iio@vger.kernel.org
+Description:
+		Power Down the IF Amp. Write 1 to power down, 0 to power up.
+
+What:		/sys/bus/iio/devices/iio:deviceX/loamp_ph_adj_i_fine
+KernelVersion:	5.13
+Contact:	linux-iio@vger.kernel.org
+Description:
+		Mixer Image Rejection Calibration 0x00: Maximum Phase, 0x7F: Minimum Phase.
+
+What:		/sys/bus/iio/devices/iio:deviceX/loamp_ph_adj_q_fine
+KernelVersion:	5.13
+Contact:	linux-iio@vger.kernel.org
+Description:
+		Mixer Image Rejection Calibration 0x00: Maximum Phase, 0x7F: Minimum Phase.
+
+What:		/sys/bus/iio/devices/iio:deviceX/mixer_vgate
+KernelVersion:	5.13
+Contact:	linux-iio@vger.kernel.org
+Description:
+		Control BB Common Mode Voltage.
+
+What:		/sys/bus/iio/devices/iio:deviceX/p1db_compensation
+KernelVersion:	5.13
+Contact:	linux-iio@vger.kernel.org
+Description:
+		Turn on bits to optimize P1dB.
+
+What:		/sys/bus/iio/devices/iio:deviceX/quad_bg_pd
+KernelVersion:	5.13
+Contact:	linux-iio@vger.kernel.org
+Description:
+		Power Down the Quadrupler Band Gap. Write 1 to power down, 0 to power up.
+
+What:		/sys/bus/iio/devices/iio:deviceX/quad_ibias_pd
+KernelVersion:	5.13
+Contact:	linux-iio@vger.kernel.org
+Description:
+		Power Down the Quadrupler Bias Current. Write 1 to power down, 0 to power up.
