@@ -1,0 +1,73 @@
+What:		/sys/bus/iio/devices/iio:deviceX/bg_pd
+KernelVersion:	5.13
+Contact:	linux-iio@vger.kernel.org
+Description:
+		Power Down the Transmitter Band Gap.
+		Write 1 to power down, 0 to power up.
+
+What:		/sys/bus/iio/devices/iio:deviceX/det_en
+KernelVersion:	5.13
+Power Down the Mixer CircuiContact:	linux-iio@vger.kernel.org
+Description:
+		Enable the Envelope Detector. Write 1 to enable, 0 to disable.
+
+What:           /sys/bus/iio/devices/iio:deviceX/loamp_ph_adj_i_fine
+KernelVersion:  5.13
+Contact:        linux-iio@vger.kernel.org
+Description:
+                Mixer Image Rejection Calibration.
+
+What:           /sys/bus/iio/devices/iio:deviceX/loamp_ph_adj_q_fine
+KernelVersion:  5.13
+Contact:        linux-iio@vger.kernel.org
+Description:
+                Mixer Image Rejection Calibration.
+
+What:           /sys/bus/iio/devices/iio:deviceX/mixer_if_en
+KernelVersion:  5.13
+Contact:        linux-iio@vger.kernel.org
+Description:
+                Enable the IF Mode. Write 1 to enable, 0 to disable.
+
+What:           /sys/bus/iio/devices/iio:deviceX/mixer_off_adj_i_p
+KernelVersion:  5.13
+Contact:        linux-iio@vger.kernel.org
+Description:
+                LO Feedthrough Offset Calibration I Positive for IF Mode.
+
+What:           /sys/bus/iio/devices/iio:deviceX/mixer_off_adj_i_n
+KernelVersion:  5.13
+Contact:        linux-iio@vger.kernel.org
+Description:
+                LO Feedthrough Offset Calibration I Negative for IF Mode.
+
+What:           /sys/bus/iio/devices/iio:deviceX/mixer_off_adj_q_p
+KernelVersion:  5.13
+Contact:        linux-iio@vger.kernel.org
+Description:
+                LO Feedthrough Offset Calibration Q Positive for IF Mode.
+
+What:           /sys/bus/iio/devices/iio:deviceX/mixer_off_adj_q_n
+KernelVersion:  5.13
+Contact:        linux-iio@vger.kernel.org
+Description:
+                LO Feedthrough Offset Calibration Q Negative for IF Mode.
+
+What:           /sys/bus/iio/devices/iio:deviceX/mixer_pd
+KernelVersion:  5.13
+Contact:        linux-iio@vger.kernel.org
+Description:
+		Power Down the Mixer Circuit. Write 1 to power down, 0 to power up.
+
+What:           /sys/bus/iio/devices/iio:deviceX/quad_pd
+KernelVersion:  5.13
+Contact:        linux-iio@vger.kernel.org
+Description:
+                Power Down the Quad. Write 7 to power down, 0 to power up.
+
+What:           /sys/bus/iio/devices/iio:deviceX/vga_pd
+KernelVersion:  5.13
+Contact:        linux-iio@vger.kernel.org
+Description:
+                Power Down the VGA Circuit. Write 1 to power down, 0 to power up.
+
